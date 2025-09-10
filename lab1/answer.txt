@@ -7,5 +7,10 @@ gcc array_sum.o array_sum_speed.o -o array_sum_speed
 ./array_sum_speed 1000000
 
 2. What was the first command you used to compile array_sum.c? How much faster/slower was your C implementation compared to the provided assembly?
+gcc -Wall -Wpedantic -std=c17 -march=haswell -c array_sum.c -o array_sum.o
+It was alot slower. 
 
 3. How did the speed of the C and assembly implementations of array_sum compare after you added -O3 to the compilation command? How did C speed compare with and without -O3?
+c was slowest
+assemby is pretty fast speed didnt change with the -03 implementation
+but c with optimization is a bit faster compared to assembly 
