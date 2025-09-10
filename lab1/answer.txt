@@ -13,5 +13,5 @@ The C implementation was alot slower comapred to the provided assembly code with
 implementation being around .4 ms or lower. 
 
 3. How did the speed of the C and assembly implementations of array_sum compare after you added -O3 to the compilation command? How did C speed compare with and without -O3?
-From the above answer we know that C implementation is slower than assembly implementation but when we added the -O3 to the compilation command it became 2 times 
-faster than the assembly implementation. Before the optimization the avergae for C was around 2.8 ms. 
+From the above answer we know that C implementation is slower than assembly implementation but when we added the -O3 to the compilation 
+command it became 2 times faster than the assembly implementation. Before the optimization the avergae for C was around 2.8 ms. 
