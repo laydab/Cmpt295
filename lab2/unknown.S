@@ -1,7 +1,8 @@
     .section .note.GNU-stack,""
     .global _start
     .text
-
+    
+# Ayden Badyal 301582013
 do_something:
     push %rbx
     mov $1, %rcx
@@ -11,8 +12,8 @@ loop_top:
     add %rcx, %rbx
     add $2, %rcx    
     cmp %rdi, %rbx
-    jl loop_top
-        
+    jle loop_top # keep looping while rbx <= rdi
+
     mov %rbx, %rax
     pop %rbx
     ret
