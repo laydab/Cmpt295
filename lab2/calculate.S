@@ -3,33 +3,39 @@
     .text
 
     calculate:
-        push %rbx
-        push %r12
+        push %rbx # for x
+        push %r12 # for a
+        push %r13 # for b
+        push %r14 # for c
+        push %r15 # for d
 
         mov %rdi, %rbx # rbx = x
         mov %rbx, %r12
-        add $3, %r12 # r12 = a = 3
+        add $3, %r12 # r12 = a = x + 3
 
-        mov  %rbx, %rdi     # arg1 = x
-        mov  %r12, %rsi     # arg2 = a
+        mov  %rbx, %rdi # arg1 = x
+        mov  %r12, %rsi # arg2 = a
         call f
-        mov  %rax, %r10     # b in r10
+        mov  %rax, %r13 # b in r13
 
-        mov  %r10, %rdi     # arg1 = b
-        mov  %rbx, %rsi     # arg2 = x
+        mov  %r13, %rdi # arg1 = b
+        mov  %rbx, %rsi # arg2 = x
         call f
-        mov  %rax, %r11     # c in r11
+        mov  %rax, %r14 # c in r14
 
-        mov  %rbx, %rdi     # arg1 = x
-        mov  %r11, %rsi     # arg2 = c
+        mov  %rbx, %rdi # arg1 = x
+        mov  %r14, %rsi # arg2 = c
         call f
-        mov  %rax, %r9      # d in r9
+        mov  %rax, %r15 # d in r9
 
-        mov  %r12, %rax     # rax = a
-        add  %r10, %rax     # b + a
-        add  %r11, %rax     # c + a
-        add  %r9,  %rax     # c + a
+        mov  %r12, %rax # rax = a
+        add  %r13, %rax # rax = a + b
+        add  %r14, %rax # rax = a + b + c
+        add  %r15,  %rax # rax = a + b + c + d
 
+        pop  %r15
+        pop  %r14
+        pop  %r13
         pop  %r12
         pop  %rbx
         ret
