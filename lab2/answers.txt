@@ -7,3 +7,7 @@ The do something function adds all of the odd numbers starting from 1 until the 
 It  gives back the first total that’s bigger than the value was past in.
 
 2. In your calculate function, why did you choose a preserved/non-preserved register for the different partial results?
+
+for the calculate function I used preserved register such as rbx and r12 through r16 to store the partail results because
+I needed to keep the files safe across mutliple calls to f. If i were to use non-preserved registers for those, they could have gotten overwritten
+by the function call. At the end it put it into rax since that will be the returned register and doesnt need to be saved. 
