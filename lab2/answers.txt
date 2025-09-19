@@ -1,6 +1,9 @@
 
-In a few words, describe the value returned by provided do_something function. 
+1. In a few words, describe the value returned by provided do_something function. 
 (This should be a natural sentence that describes the result, not a mechanical description of what the code does, 
 and not "64" because that's what's returned for a specific argument: you should describe what the function returns in general).
 
-In your calculate function, why did you choose a preserved/non-preserved register for the different partial results?
+The do something function adds all of the odd numbers starting from 1 until the sum goes past the input. 
+It  gives back the first total that’s bigger than the value was past in.
+
+2. In your calculate function, why did you choose a preserved/non-preserved register for the different partial results?
