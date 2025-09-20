@@ -4,10 +4,10 @@
 and not "64" because that's what's returned for a specific argument: you should describe what the function returns in general).
 
 The do something function adds all of the odd numbers starting from 1 until the sum goes past the input. 
-It  gives back the first total that’s bigger than the value was past in.
+It  gives back the first largest square that’s bigger than the value was past in.
 
 2. In your calculate function, why did you choose a preserved/non-preserved register for the different partial results?
 
-for the calculate function I used preserved register such as rbx and r12 through r16 to store the partail results because
-I needed to keep the files safe across mutliple calls to f. If i were to use non-preserved registers for those, they could have gotten overwritten
-by the function call. At the end it put it into rax since that will be the returned register and doesnt need to be saved. 
+For the calculate function I used preserved register such as rbx and r12, r13 and r14 to store the partail results because
+I needed to keep the files safe across mutliple calls to f. The non-preserved register for d, which you dont really need. 
+At the end it put it into rax since that will be the returned register and doesnt need to be saved.
