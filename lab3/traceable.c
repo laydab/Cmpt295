@@ -6,6 +6,7 @@
 char buffer[BLEN];
 char* digits = "0123456789abcdef";
 
+// Ayden Badyal 301582013
 uint64_t factorial(uint64_t n) {
     if ( n == 0 ) {
         return 1;
@@ -17,6 +18,7 @@ uint64_t factorial(uint64_t n) {
     }
 }
 
+// Ayden Badyal 301582013
 char* to_base(uint64_t v, short base, char ending) {
     unsigned char c;
     char* pos = buffer + BLEN - 2;
