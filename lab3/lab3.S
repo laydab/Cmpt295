@@ -52,7 +52,6 @@ hailstone_length:
     # rbx is length counter
     mov $0, %rax
 
-
 loop_hail:
     
     # while n != 1
