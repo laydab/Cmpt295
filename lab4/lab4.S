@@ -4,7 +4,7 @@
 
 # should either return 1 if is prime or 0 if not prime
 is_prime:
-    # let rbx = 2
+    # let rbx = 2 = i
     mov $2, %rbx 
 
     # rax = n
@@ -14,13 +14,12 @@ is_prime:
     # check if n <= 2
     cmp %rsi, %rbx
     
-    # jump if 2 >= n
+    # jump if n <= 2
     jae is_prime_done
-
 
 loop_prime:
     # put n back into rax
-    mov %rsi, %rax
+    mov %rdi, %rax
 
     # set rdx to 0
     mov $0, %rdx
@@ -39,7 +38,7 @@ loop_prime:
     cmp %rbx, %rsi
 
     # jump if i < n keep looping
-    jb loop_prime
+    ja loop_prime
 
 is_prime_done:
     mov $1, %rax
@@ -47,4 +46,5 @@ is_prime_done:
 
 not_prime:
     mov $0, %rax
-    ret 
+    ret
+
