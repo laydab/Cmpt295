@@ -1,5 +1,8 @@
     .section .note.GNU-stack, ""
     .global is_prime
+    .global largest_power_unsigned
+    .global overflowing_subtract
+    .global dumb
     .text
 
 # should either return 1 if is prime or 0 if not prime
@@ -31,8 +34,8 @@ loop_prime:
     test %rdx, %rdx 
     je not_prime
 
-    # increment i++
-    inc %rbx
+    # increase i by 1
+    add $1, %rbx
 
     # compare i and n
     cmp %rbx, %rsi
@@ -47,4 +50,62 @@ is_prime_done:
 not_prime:
     mov $0, %rax
     ret
+
+# returns the largest power of n thats represent a 64-bit
+largest_power_unsigned:
+    # want to loop multiple times
+    
+    # this will be what I multiple n by
+    mov %rdi, %rsi 
+
+    # return value
+    mov %rdi, %rax
+
+loop_power:
+
+    # multiply by new n
+    mul %rsi
+
+    # keep looping until overflow
+    jno loop_power
+    div %rsi
+
+power_done:
+    ret
+
+
+overflowing_subtract:
+    # rdi = a
+    # rsi = b
+
+    sub %rsi, %rdi
+
+    # copy rdi to rax to return
+    mov %rdi, %rax
+
+    # will jump if overflow happens
+    jo sub_overflow_done
+
+subtract_done:
+    ret
+
+sub_overflow_done:
+    mov $0, %rax
+    ret
+
+
+dumb:
+    # rdi = a
+    # rsi = b
+
+    je b_plus_done
+
+b_plus_done:
+    add $1, %rsi
+    mov %rsi, %rax
+    ret 
+
+a_done:
+
+rec_done:
 
