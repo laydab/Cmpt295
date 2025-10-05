@@ -5,43 +5,44 @@
     .global dumb
     .text
 
-# should either return 1 if is prime or 0 if not prime
-is_prime:
-    # let rbx = 2 = i
-    mov $2, %rbx 
 
+is_prime:
     # rax = n
     mov %rdi, %rsi 
 
+    # let rbx = 2 = i
+    mov $2, %r8 
 
     # check if n <= 2
-    cmp %rsi, %rbx
+    cmp %rsi, %r8
     
     # jump if n <= 2
     jae is_prime_done
 
 loop_prime:
     # put n back into rax
-    mov %rdi, %rax
+    mov %rsi, %rax
 
     # set rdx to 0
     mov $0, %rdx
 
     # divide n by i
-    div %rbx
+    div %r8
 
     # so if remainder == 0, n is divisible by i
-    test %rdx, %rdx 
+    cmp $0, %rdx 
     je not_prime
 
     # increase i by 1
-    add $1, %rbx
+    add $1, %r8
 
     # compare i and n
-    cmp %rbx, %rsi
+    cmp %r8, %rsi
 
-    # jump if i < n keep looping
-    ja loop_prime
+    # jump if i >=  n 
+    jbe is_prime_done
+
+    jmp loop_prime
 
 is_prime_done:
     mov $1, %rax
@@ -51,7 +52,7 @@ not_prime:
     mov $0, %rax
     ret
 
-# returns the largest power of n thats represent a 64-bit
+
 largest_power_unsigned:
     # want to loop multiple times
     
