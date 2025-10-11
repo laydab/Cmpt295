@@ -1,0 +1,29 @@
+
+1. What was your test setup (i.e. what CPU model/generation did you test with? Desktop or laptop or other?)
+
+I ran the testing on the csil-cpuo09. It is a Intel(R) Xeon(R) Gold 5220R CPU @ 2.20GHz, using x64. Im using it from my macbook,
+but everything is excuted on the csil server, and not my local hardware. 
+
+2. What were your results: how much faster (likely expressed as a fraction/percent) is each #2 implementation?
+(There is no exact answer here: results will vary by run, but give your best estimate of the "truth".)
+
+polynomial1(3,2,7,-1,2) calculated        23200000000 in   163.8 ms
+polynomial2(3,2,7,-1,2) calculated        23200000000 in    70.2 ms
+polynomial3(3,2,7,-1,2) calculated        23200000000 in    67.4 ms
+For poly2 it was 57.1% faster than poly1. This is a huge difference in speed.
+
+is_odd1(7) + is_odd1(8) calculated          200000000 in  3734.6 ms
+is_odd2(7) + is_odd2(8) calculated          200000000 in   332.5 ms
+is_odd3(7) + is_odd3(8) calculated          200000000 in   290.1 ms
+For odd2 it was 91% faster than odd1. Which is an insane differnce in speed and would add up depening on what we would to check. 
+
+mul1(123) calculated   1612210200000000 in   324.3 ms
+mul2(123) calculated   1612210200000000 in   313.4 ms
+mul3(123) calculated   1612210200000000 in   296.8 ms
+For mul2 it is only slight faster than mul1 by 2.4%. This isnt a huge difference and wouldnt really tell. 
+I did notice that if we uncomment the overhead = elapsed; we would get times in the negitves for mul2/3 showing it ran faster than the estimate. 
+
+3. In each case, the C implementation (#3) was described with the "slow" algorithm. How did they compare to the "fast" algorithm after the optimizer processed them?
+When looking at the alorithms we can tell that when we run it with the optimizer the C veriosn ran alsmost as fast or even faster than the assembly implementation.
+This is somewhat surpirssing because i would assume that assembly would always be faster which happened in lab1 where assmebly was faster or the same speed. Without the optimize 
+we can tell that the c code is noticeably slower. 
