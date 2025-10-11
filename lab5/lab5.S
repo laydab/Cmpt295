@@ -6,6 +6,7 @@
     .global is_odd1
     .global is_odd2
     .global mul1
+    .global mul2
 
 fibonacci:
     push %r8
@@ -132,4 +133,15 @@ is_odd2:
 mul1: 
     mov $65537, %rax
     mul %rdi
+    ret
+
+mul2:
+    mov %rdi, %rax
+
+    # shifts left by 16 bits
+    # multiply n by 2^16
+    shl $16, %rax
+
+    add %rdi, %rax
+
     ret
