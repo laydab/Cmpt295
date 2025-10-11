@@ -5,6 +5,7 @@
     .global polynomial2
     .global is_odd1
     .global is_odd2
+    .global mul1
 
 fibonacci:
     push %r8
@@ -122,8 +123,13 @@ odd1_done:
 
 is_odd2:
     mov %rdi, %rax
-    
+
     # leaves 0 if even or 1 if 0dd
     and $1, %rax
     ret
 
+
+mul1: 
+    mov $65537, %rax
+    mul %rdi
+    ret
