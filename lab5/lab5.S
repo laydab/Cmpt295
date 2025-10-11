@@ -70,5 +70,26 @@ add %r8, %rax
 
 ret
 
+polynomial2:
 
+# x = rdi
+# a = rsi
+# b = rdx
+# c = rcx
+# d = r8
+
+# (a * x + b)
+mov %rsi, %rax
+imul %rdi, %rax
+add %rdx, %rax
+
+# (x * (a * x + b) + c)
+imul %rdi, %rax
+add %rcx, %rax
+
+# (x * (a * x + b) + c)
+imul %rdi, %rax
+add %r8, %rax
+
+ret
 
