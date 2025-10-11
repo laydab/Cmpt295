@@ -3,30 +3,38 @@
     .global fibonacci
     .global dumb
 
-# need to create another varible for rbx because the function call n twice but if we subtract 1 once, the other is already subtraced
 fibonacci:
     push %r8
     push %r9
 
-    # copies n to r9 and r8
-    mov %rdi, %r9
+    # copies n to r9
     mov %rdi, %r8
 
-    cmp $1, %r9
+    # jumps if n <= 1
+    cmp $1, %rdi
     jbe fib_done
 
-    cmp $1, %r8
-    jbe fib_done
-
-
-
-
-
+    # fib(n-1)
+    mov %r8, %rdi
+    sub $1, %rdi
     call fibonacci
 
+    # stores rax
+    mov %rax, %r9
+
+    # fib(n-2)    
+    mov %r8, %rdi
+    sub $2, %rdi
+    call fibonacci
+
+    # add fib(n-1) + fib(n-2)
+    add %r9, %rax
+    pop %r9
+    pop %r8
+    ret
+
 fib_done:
-
-    pop %rbx
-    mov %rbx, %rax
-
+    mov %rdi, %rax
+    pop %r9
+    pop %r8
     ret
