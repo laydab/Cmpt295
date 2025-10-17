@@ -6,70 +6,68 @@
     .text
 
 is_prime:
-    # rcx = i = 2
+    # let rcx = i
     mov $2, %rcx
-    mov %rdi, %rax
+
+    # might check if i >= n if so its prime
+    cmp %rcx, %rdi
+    jbe prime_done
 
 loop_prime:
-    # keeps looping while i < n
-    # cmp rcx = i and rax = n
-    cmp %rcx, %rax
-    # jump if i  >= n
-    jbe is_prime_done
 
-    # copy n to r8 to save value
-    mov %rax, %r8
+
+    mov %rdi, %rax
     mov $0, %rdx
-    # n % i wher n stores how many times val goes in and rdx stores remander
     div %rcx
 
+    # check if rdx is zero and if so jump to prime_done
     cmp $0, %rdx
-    je not_prime
+    je not_prime_done
 
-    mov %r8, %rax
+    # increase i by 1
+    add $1, %rcx
 
-    # increment i by 1
-    inc %rcx
+    # keep looping if i < n
+    cmp %rcx, %rdi
+    ja loop_prime
 
-    jmp loop_prime
 
-not_prime:
-    mov $0, %rax
-    ret
-
-is_prime_done:
+# return 1 if prime
+prime_done:
     mov $1, %rax
     ret
 
-largest_power_unsigned:
-    # want to keep looping until we hit overflow 
-    # then divided it then return what we have
+# Return 0 for not prime
+not_prime_done:
+    mov $0, %rax
+    ret
 
-    # rax will hold the return value
+
+largest_power_unsigned:
     mov %rdi, %rax
 
-    # will keep multipling rax by r8 
+    # will multiple %rax by this
     mov %rdi, %r8
 
+large_loop:
 
-pow_loop:
     mul %r8
-    jno pow_loop
+
+    # want to keep looping if we dont get overflow
+    jno large_loop
+
+    # If overflow comes down
     div %r8
 
-pow_done:
+large_done:
     ret
 
 overflowing_subtract:
-    # If signed overflow happens when we do a-b then we return 0
-    # rdi = a
-    # rsi = b
-    # a - b rdi is where it its being stores
-    sub %rsi, %rdi
-    jo overflow
     mov %rdi, %rax
+    sub %rsi, %rax
+    # If overflow happens jump and return 0
+    jo overflow
 
-overflow_done:
     ret
 
 overflow:
@@ -83,42 +81,47 @@ dumb:
     # let rdi = a
     # let rsi = b
 
-
-    # check if a == 0
+    # If rdi == 0
     cmp $0, %rdi
-    # jump is a == 0
     je a_zero
 
-    # check if b == 0 then jump if so
+    # If rsi == 0
     cmp $0, %rsi
     je b_zero
 
+    # decreasing rdi and rsi
     sub $1, %rdi
     sub $1, %rsi
+
+    # call dumb again
     call dumb
 
     pop %rsi
     pop %rdi
 
+    add %rdi, %rax
+    add %rdi, %rax
     add %rsi, %rax
-    add %rdi, %rax
-    add %rdi, %rax
 
     ret
 
 a_zero:
     pop %rsi
     pop %rdi
-
+    
+    # add 1 to b then add it to rax
     add $1, %rsi
-
     mov %rsi, %rax
 
     ret
 
-b_zero:    
+b_zero:
     pop %rsi
     pop %rdi
-    
+
+    # add a to rax
     mov %rdi, %rax
+
     ret
+
+
