@@ -1,0 +1,16 @@
+
+1. What commands did you use to compile/assemble and run your code for this lab?
+I used gcc -Wall -Wpedantic -std=c17 -march=haswell -O3 tests.c lab7.S && ./a.out for the test.
+I used cc -Wall -Wpedantic -std=c17 -march=haswell -O3 timing.c lab7c.c lab7.S && ./a.out for the timing
+
+2. How did the running times compare for the various dot product implementations?
+These are the result from running the command for finding the timing.
+
+    warmup(5) calculated -1599990000000000 in  0.00 ns/elt
+    dot(arr1, arr2, LENGTH) calculated      -6482137000 in  1.13 ns/elt
+    dot_c(arr1, arr2, LENGTH) calculated      -6482137000 in  0.74 ns/elt
+    dot_struct(arr_pair, LENGTH) calculated      -6482137000 in  1.00 ns/elt
+    dot_struct_c(arr_pair, LENGTH) calculated      -6482137000 in  0.90 ns/elt
+
+With this we can see that the c implemetn was around .4 ns/elt faster for dot then for dot_struct we can find that it was only .1 ns/elt faster.
+I also tested without the -O3 optimization flag. Without optimization, the C code was significantly slower, which makes total sense. 

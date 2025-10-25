@@ -1,7 +1,7 @@
     .section .note.GNU-stack, ""
-    .text
     .global strlen_mine
     .global strlen_utf8
+    .text
 
 strlen_mine:
 
@@ -31,7 +31,6 @@ utf_loop:
     je utf_done
 
     # will check if byte is a continuation byte
-
     # copy byte to sil
     movb (%rdi), %sil
 
