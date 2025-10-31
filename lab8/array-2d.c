@@ -38,6 +38,11 @@ DATA_T sum_array_row(DATA_T* array, uint64_t width, uint64_t height) {
 DATA_T sum_array_col(DATA_T* array, uint64_t width, uint64_t height) {
     // TODO
     DATA_T sum = 0;
+    for (uint64_t i = 0; i < width; i++){
+        for (uint64_t j = 0; i < height; i++) {
+            sum += array[j * width + i];
+        }
+    }
     return 0;
 }
 
