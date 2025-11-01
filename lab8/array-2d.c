@@ -27,23 +27,24 @@ DATA_T* create_array(uint64_t length) {
 
 DATA_T sum_array_row(DATA_T* array, uint64_t width, uint64_t height) {
     // TODO
-
     DATA_T sum = 0;
-    for (uint64_t i = 0; i < width * height; i++){
-        sum += array[i];
+    for (uint64_t i = 0; i < height; i++){
+        for (uint64_t j = 0; j < width; j++) {
+            sum += array[i * width + j];
+        }
     }
-    return 0;
+    return sum;
 }
 
 DATA_T sum_array_col(DATA_T* array, uint64_t width, uint64_t height) {
     // TODO
     DATA_T sum = 0;
     for (uint64_t i = 0; i < width; i++){
-        for (uint64_t j = 0; i < height; i++) {
+        for (uint64_t j = 0; j < height; j++) {
             sum += array[j * width + i];
         }
     }
-    return 0;
+    return sum;
 }
 
 typedef struct {
@@ -91,9 +92,11 @@ int main(int argc, char* argv[]) {
         if (n % w == 0) {
             uint64_t h = n / w;
             // treat array like it's h*w...
+            res = time_it(sum_array_row, array, w, h);
+            printf("Calculated row " DATA_PRINTF " in %8.2fms on %lu*%lu array.\n", res->result, res->elapsed_ms, w, h);
+            free(res);
             res = time_it(sum_array_col, array, w, h);
-            //res = time_it(sum_array_row, array, w, h);
-            printf("Calculated " DATA_PRINTF " in %8.2fms on %lu*%lu array.\n", res->result, res->elapsed_ms, w, h);
+            printf("Calculated col " DATA_PRINTF " in %8.2fms on %lu*%lu array.\n", res->result, res->elapsed_ms, w, h);
         }
     }
     return 0;

@@ -1,0 +1,44 @@
+1. How much faster was the by-row access of the rectangular array than the by-column when your array fits in L1 cache?
+(Compare the worst case of each.)
+
+    Tested with a array of 25000 elements 195kB, fitting in the chache
+    Calculated row -49.4383 in 0.06ms on 50*500 array.
+    Calculated col -49.4383 in 0.05ms on 1*25000 array.
+    When the array in within the L1 cache, the difference is very small with being around 0.01ms difference because all of the data accesses
+    hit L1 cache regardless of the pattern. 
+
+2. How does the performance of the by-column summation change as the array gets larger than the caches?
+
+    This is some of the output of array with 5120000 elements with array size being 40000kB
+    alculated row -42.7861 in     8.54ms on 2048*2500 array.
+    Calculated col -42.7861 in    77.31ms on 2048*2500 array.
+    Calculated row -42.7861 in     8.68ms on 2500*2048 array.
+    Calculated col -42.7861 in    52.17ms on 2500*2048 array.
+    Calculated row -42.7861 in     8.61ms on 2560*2000 array.
+    Calculated col -42.7861 in    67.26ms on 2560*2000 array.
+    Calculated row -42.7861 in     8.82ms on 3200*1600 array.
+    Calculated col -42.7861 in    37.88ms on 3200*1600 array.
+    Calculated row -42.7861 in     8.46ms on 4000*1280 array.
+    Calculated col -42.7861 in    23.18ms on 4000*1280 array.
+    Calculated row -42.7861 in     8.43ms on 4096*1250 array.
+    Calculated col -42.7861 in    32.09ms on 4096*1250 array.
+    Calculated row -42.7861 in     8.47ms on 5000*1024 array.
+    Calculated col -42.7861 in    18.81ms on 5000*1024 array.
+    Calculated row -42.7861 in     8.67ms on 5120*1000 array.
+    Calculated col -42.7861 in    30.09ms on 5120*1000 array.
+
+    By looking at the part of the output we can tell that row isnt really affect affected by the change in dimension is remain consistently between 8-9ms.
+    However when looking at some of the col it dramatically changes and varies depending on the array dimensions. Shwoing that when the array grows bigger than the L1 cache
+    the they both slow down however the col slows down by alot. That’s because by-column access jumps across memory rows,
+    so each step brings in a new cache line and evicts the previous one.
+
+
+3. Did avoiding the branch with a conditional move speed up the hailstone length calculation? By how much? How did the C code compare?
+
+    Yes, the conidtional move is significantly faster compared to the c and order hailstone method. 
+    hailstone_length_c calculated  218020677 in 481 ms
+    hailstone_length calculated  218020677 in 460 ms
+    hailstone_length_cmov calculated  218020677 in 397 ms
+
+    The cmov version is around is aournd 16% faster than the previous hailstone length.While it is around 21% faster than the c hailstone lenght.
+    Both the assembly version are faster tthan the optimzed c version.
