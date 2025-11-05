@@ -75,7 +75,7 @@ hail_loop:
     # check if odd 
     and $1, %rsi
 
-    # If odd, move rcs into rdx
+    # If odd, move rcx into rdx
     cmovnz %rcx, %rdx
 
     mov %rdx, %rdi

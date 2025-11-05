@@ -83,9 +83,13 @@ int main(int argc, char* argv[]) {
 
     // do some warmups
     res = time_it(sum_array_row, array, n, 1);
+    free(res);
     res = time_it(sum_array_col, array, n, 1);
+    free(res);
     res = time_it(sum_array_row, array, n, 1);
+    free(res);
     res = time_it(sum_array_col, array, n, 1);
+    free(res);
 
     for (uint64_t w = 1; w <= n; w++) {
         // try all array widths that divide the size...
@@ -97,8 +101,10 @@ int main(int argc, char* argv[]) {
             free(res);
             res = time_it(sum_array_col, array, w, h);
             printf("Calculated col " DATA_PRINTF " in %8.2fms on %lu*%lu array.\n", res->result, res->elapsed_ms, w, h);
+            free(res);
         }
     }
+    free(array);
     return 0;
 }
 
