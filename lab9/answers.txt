@@ -1,0 +1,46 @@
+1. Do you promise you got a "All heap blocks were freed" on your array-2d.c code from last week?
+    When I went back to check my code from last week all heaps blocks were not all freed, however I promise that they are all free now.
+
+2. When bubble sorting a random array, what fraction of the running time do you think is being spent on examining values (the loops + comparison)?
+Swapping values? Branch mispredictions?
+
+3. What were the tests of bubble sort you ran under perf? (Likely 2 or 3 runs with different calls to just_sort.)
+just_sort(bubble_sort, length, RANDOM);
+
+        44,059,184      branch-misses                    #    8.78% of all branches           
+       501,831,884      branches                                                              
+       301,052,929      br_inst_retired.not_taken                                             
+
+       0.473016412 seconds time elapsed
+
+       0.464442000 seconds user
+       0.001997000 seconds sys
+
+just_sort(bubble_sort, length, REVERSE_SORTED);
+
+        172,055      branch-misses                    #    0.03% of all branches           
+       601,374,023      branches                                                              
+       400,543,310      br_inst_retired.not_taken                                             
+
+       0.164711209 seconds time elapsed
+
+       0.159866000 seconds user
+       0.000999000 seconds sys
+
+just_sort(bubble_sort, length, SORTED);
+
+           329,481      branch-misses                    #    0.03% of all branches           
+     1,002,472,744      branches                                                              
+       600,982,643      br_inst_retired.not_taken                                             
+
+       0.255502462 seconds time elapsed
+
+       0.250233000 seconds user
+       0.001000000 seconds sys
+
+
+4. What fraction of the branches at the if in bubble sort were mispredicted when the array was random? When it was already sorted? Note that for an array of 20000, the if should execute 199,990,000 times.
+
+5. How did the Perf report number of cache misses change with the larger 2D array "height"? Does it match your expectations?
+
+6. How did the Cachegrind report number of cache misses change with the larger 2D array "height"? Does it match your expectations?
