@@ -103,7 +103,7 @@ void pdq_sort(DATA_T* array, uint64_t length) {
 
 void bubble_sort(DATA_T* array, uint64_t length) {
     // TODO
-    for (uint64_t i = 0; i < length -1; i++ ){
+    for (uint64_t i = 0; i < length - 1; i++ ){
         for (uint64_t j = i+1; j < length; j++ ) {
             if (array[i] > array[j]) {
                 DATA_T tmp = array[j];
@@ -180,12 +180,12 @@ int main(int argc, char* argv[]) {
     printf("Array size: %lu kB\n", length * sizeof(DATA_T) / 1024);
     
     // Warm up to get the CPU out of a low-power state...
-    just_sort(bubble_sort, length, RANDOM);
-    just_sort(bubble_sort, length, RANDOM);
-    just_sort(bubble_sort, length, RANDOM);
+    // just_sort(bubble_sort, length, RANDOM);
+    just_sort(bubble_sort, length, REVERSE_SORTED);
+    just_sort(bubble_sort, length, SORTED);
     
     // The real test...
-    time_them(length);
+    // time_them(length);
 
     return 0;
 }
