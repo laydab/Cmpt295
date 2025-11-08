@@ -3,44 +3,164 @@
 
 2. When bubble sorting a random array, what fraction of the running time do you think is being spent on examining values (the loops + comparison)?
 Swapping values? Branch mispredictions?
+       Array size: 195 kB
+       bubble_sort on sorted sorted    25000 values in  134.40 ms
+       bubble_sort on reverse sorted    25000 values in  165.64 ms
+       bubble_sort on random sorted    25000 values in  614.32 ms
+
+       When bubble sorting a random array it takes around 22% on loop plus comparison, then around 3% on swapping then values,
+       while branch misprediction being taking signifclty large percentage of 75%.
 
 3. What were the tests of bubble sort you ran under perf? (Likely 2 or 3 runs with different calls to just_sort.)
 just_sort(bubble_sort, length, RANDOM);
+       I ran three test of just_sort with random, reverse_sorted, and sorted with each of them with 20000 as the parameter. 
 
-        44,059,184      branch-misses                    #    8.78% of all branches           
-       501,831,884      branches                                                              
-       301,052,929      br_inst_retired.not_taken                                             
+       just_sort(bubble_sort, length, RANDOM);
+       just_sort(bubble_sort, length, REVERSE_SORTED);
+       just_sort(bubble_sort, length, SORTED);
 
-       0.473016412 seconds time elapsed
+4. What fraction of the branches at the if in bubble sort were mispredicted when the array was random?
+When it was already sorted? Note that for an array of 20000, the if should execute 199,990,000 times.
+Random
+Array size: 156 kB
 
-       0.464442000 seconds user
-       0.001997000 seconds sys
+ Performance counter stats for './a.out 20000':
 
-just_sort(bubble_sort, length, REVERSE_SORTED);
+       44,041,374      branch-misses                    #    8.78% of all branches           
+       501,576,181      branches                                                              
+       300,969,713      br_inst_retired.not_taken                                             
 
-        172,055      branch-misses                    #    0.03% of all branches           
-       601,374,023      branches                                                              
-       400,543,310      br_inst_retired.not_taken                                             
+       0.409576805 seconds time elapsed
 
-       0.164711209 seconds time elapsed
+       0.404559000 seconds user
+       0.001001000 seconds sys
 
-       0.159866000 seconds user
-       0.000999000 seconds sys
+       │    for (uint64_t j = i+1; j < length; j++ ) {                          ▒
+       │1d:   add     $0x8,%rax                                                 ▒
+       │      cmp     %rcx,%rax                                                 ▒
+  0.05 │    ↓ je      40                                                        ▒
+       │    if (array[i] > array[j]) {                                          ▒
+       │26:   vmovsd  -0x8(%rdx),%xmm1                                          ▒
+       │      vmovsd  (%rax),%xmm0                                              ▒
+       │      vcomisd %xmm0,%xmm1                                               ▒
+ 99.95 │    ↑ jbe     1d                                                        ▒
+       │    DATA_T tmp = array[j];                                              ▒
+       │    array[j] = array[i];                                                ▒
+       │      vmovsd  %xmm1,(%rax)                                              ▒
+       │    array[i] = tmp;                                                     ▒
+       │      vmovsd  %xmm0,-0x8(%rdx)                                          ▒
+       │    ↑ jmp     1d                                                        ▒
+       │    for (uint64_t i = 0; i < length - 1; i++ ){                         ▒
+       │40:   add     $0x8,%rdx                                                 ▒
+       │      cmp     %r8,%rdi                                                  ▒
+       │    ↓ je      56                                                        ▒
+       │    for (uint64_t j = i+1; j < length; j++ ) {                          ▒
+       │49:   inc     %rdi                                                      ▒
+       │      cmp     %rsi,%rdi                                                 ▒
+       │    ↑ jae     40                                                        ▒
+       │      mov     %rdx,%rax                                                 ▒
+       │    ↑ jmp     26                                                        ▒
+       │    }                                                                   ▒
+       │    }                                                                   ▒
+       │    }                                                                   ▒
+       │    }                                                                   ▒
+       │56: ← ret    
 
-just_sort(bubble_sort, length, SORTED);
+Sorted
+Array size: 156 kB
 
-           329,481      branch-misses                    #    0.03% of all branches           
-     1,002,472,744      branches                                                              
-       600,982,643      br_inst_retired.not_taken                                             
+ Performance counter stats for './a.out 20000':
 
-       0.255502462 seconds time elapsed
+       160,003      branch-misses                    #    0.04% of all branches           
+       401,299,980      branches                                                              
+       200,531,488      br_inst_retired.not_taken                                             
 
-       0.250233000 seconds user
-       0.001000000 seconds sys
+       0.098035828 seconds time elapsed
 
+       0.093221000 seconds user
+       0.001002000 seconds sys
 
-4. What fraction of the branches at the if in bubble sort were mispredicted when the array was random? When it was already sorted? Note that for an array of 20000, the if should execute 199,990,000 times.
+       │    void bubble_sort(DATA_T* array, uint64_t length) {                  ▒
+       │      endbr64                                                           ▒
+       │    // TODO                                                             ▒
+       │    for (uint64_t i = 0; i < length - 1; i++ ){                         ▒
+       │      lea     -0x1(%rsi),%r8                                            ▒
+       │      cmp     $0x1,%rsi                                                 ▒
+       │    ↓ je      56                                                        ▒
+       │      lea     0x8(%rdi),%rdx                                            ▒
+       │      lea     (%rdi,%rsi,8),%rcx                                        ▒
+       │      mov     $0x0,%edi                                                 ▒
+       │    ↓ jmp     49                                                        ▒
+       │    for (uint64_t j = i+1; j < length; j++ ) {                          ▒
+       │1d:   add     $0x8,%rax                                                 ▒
+       │      cmp     %rcx,%rax                                                 ▒
+100.00 │    ↓ je      40                                                        ▒
+       │    if (array[i] > array[j]) {                                          ▒
+       │26:   vmovsd  -0x8(%rdx),%xmm1                                          ▒
+       │      vmovsd  (%rax),%xmm0                                              ▒
+       │      vcomisd %xmm0,%xmm1                                               ▒
+       │    ↑ jbe     1d                                                        ▒
+       │    DATA_T tmp = array[j];                                              ▒
+       │    array[j] = array[i];                                                ▒
+       │      vmovsd  %xmm1,(%rax)                                              ▒
+       │    array[i] = tmp;                                                     ▒
+       │      vmovsd  %xmm0,-0x8(%rdx)                                          ▒
+       │    ↑ jmp     1d                                                        ▒
+       │    for (uint64_t i = 0; i < length - 1; i++ ){                         ▒
+       │40:   add     $0x8,%rdx                                                 ▒
+       │      cmp     %r8,%rdi                                                  ▒
+       │    ↓ je      56                                                        ▒
+       │    for (uint64_t j = i+1; j < length; j++ ) {                          ▒
+       │49:   inc     %rdi                                                      ▒
+       │      cmp     %rsi,%rdi                                                 ▒
+       │    ↑ jae     40                                                        ▒
+       │      mov     %rdx,%rax                                                 ▒
+       │    ↑ jmp     26                                                        ▒
+       │    }                                                                   ▒
+       │    }                                                                   ▒
+       │    }                                                                   ▒
+       │    }                                                                   ▒
+       │56: ← ret      
+
+The random array had about 22% of the if branches were mispredicted with 44 million of it.
+Perf annotate confirms that 99.95% of all branch misses in the program occurred at the if condition.
+
+The sorted away has around a 0.08% misprediction rate with 160,003 misses. However,
+perf annotate shows these misses actually occurred at the loop boundary checks at 100% not at the if statement. The if condition was nearly perfectly predicted.
 
 5. How did the Perf report number of cache misses change with the larger 2D array "height"? Does it match your expectations?
 
+ Performance counter stats for './a.out 80000000 1':
+
+        22,735,901      L1-dcache-load-misses            #    1.15% of all L1-dcache accesses 
+     1,977,358,154      L1-dcache-loads                                                       
+           494,800      LLC-load-misses                  #   72.24% of all LL-cache accesses  
+           684,950      LLC-loads                                                             
+
+       1.239104656 seconds time elapsed
+
+       1.057033000 seconds user
+       0.178005000 seconds sys
+
+ Performance counter stats for './a.out 80000000 10000':
+
+       173,833,639      L1-dcache-load-misses            #    8.79% of all L1-dcache accesses 
+     1,977,659,699      L1-dcache-loads                                                       
+        17,134,892      LLC-load-misses                  #   13.06% of all LL-cache accesses  
+       131,215,276      LLC-loads                                                             
+
+       1.638699754 seconds time elapsed
+
+       1.473242000 seconds user
+       0.163026000 seconds sys
+
+When height is 1, L1 miss rate was 1.15% and LLC miss rate was around 72%. When height was 10000, L1 miss rate was 8.79% and LLC miss rate was 13%.
+Yes this matches my expectations. With a larger height we're accessing memory in column-wise order with big jumps between elements,
+so the L1 cache gets thrashed. The L1 misses went up around 7.6 times with the LLC miss rate actually went down because more of the working set fits in the larger L3 cache.
+even though we're missing L1 more often.
+
 6. How did the Cachegrind report number of cache misses change with the larger 2D array "height"? Does it match your expectations?
+       When  height is 1 we got 1,001,389 L1 data cache read misses and 1,001,175 last-level cache read misses
+       With height is 10000 we got  8,001,390 L1 data cache read misses and 992,862 last-level cache read misses
+       The cachegrind report shows a huge jump in cache misses when you swtich from a small height such as 1 to a larger height array such as 10000.
+       This mathces my expections with a increase in hieght creating a increase in cache misses.
