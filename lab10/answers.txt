@@ -1,0 +1,25 @@
+1. What was the running time of the dot product implementations? Assembly vs the compiler, and single- vs double-precision?
+    dot_double_c took    40.7 ms
+    dot_double took    40.4 ms
+    dot_single_c took    35.6 ms
+    dot_single took    36.2 ms
+
+The c and assembly runtime of dot is nearly ideentical. We can tell that single precision is a bit faster than the double. 
+
+2. Same question, but for the polynomial evaluation? (Prediction: the differences should be much more obvious here.)
+
+    map_poly_double_c1 took    57.3 ms
+    map_poly_double_c2 took    54.8 ms
+    map_poly_double took   152.6 ms
+    map_poly_single_c took    27.8 ms
+    map_poly_single took   128.2 ms
+
+    The assembly implementation is alot slower than the c version for both single and double precision. 
+
+3. What is the relative running time of the x87-based sine calculation vs the C implementation (that uses its own implementation of the function)?
+    Testing with 10000000 elements
+    sin_x87 took   298.0 ms
+    sin_stdlib took   108.9 ms
+
+    The C standard library's sin() is much more faster than the x87 fsin instruction. This shows that modern math libraries use optimized algorithms that 
+    can outperform old x87 hardware instructions. 
