@@ -7,6 +7,24 @@ strlen_mine:
 
     mov $0, %rax
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 loop_mine:
     # compares the byte at memory
     cmpb $0, (%rdi)
