@@ -141,84 +141,141 @@ map_single_done:
     ret
 
 
-
 dot_double_vec:
+
     vxorpd %ymm0, %ymm0, %ymm0
+
     mov $0, %rcx
-dot_double_vec_loop:
+
+double_vec_loop:
     cmp %rdx, %rcx
-    je dot_double_vec_done
+    je double_vec_done
+
+    # loads 4 doubles from arr1 and arr2
     vmovupd (%rdi, %rcx, 8), %ymm1
     vmovupd (%rsi, %rcx, 8), %ymm2
+
     vmulpd %ymm2, %ymm1, %ymm1
     vaddpd %ymm1, %ymm0, %ymm0
+
     add $4, %rcx
-    jmp dot_double_vec_loop
-dot_double_vec_done:
+
+    jmp double_vec_loop
+
+double_vec_done:
+    # horizontal add to sum all 4 values
     vextractf128 $1, %ymm0, %xmm1
     vaddpd %xmm1, %xmm0, %xmm0
     vhaddpd %xmm0, %xmm0, %xmm0
+
     ret
 
 dot_single_vec:
+
     vxorps %ymm0, %ymm0, %ymm0
+
     mov $0, %rcx
+
 dot_single_vec_loop:
     cmp %rdx, %rcx
     je dot_single_vec_done
+
+    # loads 8 floats from arr1 and arr2
     vmovups (%rdi, %rcx, 4), %ymm1
     vmovups (%rsi, %rcx, 4), %ymm2
+
     vmulps %ymm2, %ymm1, %ymm1
+
     vaddps %ymm1, %ymm0, %ymm0
+
     add $8, %rcx
+
     jmp dot_single_vec_loop
+
 dot_single_vec_done:
+    # horizontal add to sum all 8 values
     vextractf128 $1, %ymm0, %xmm1
+
     vaddps %xmm1, %xmm0, %xmm0
     vhaddps %xmm0, %xmm0, %xmm0
     vhaddps %xmm0, %xmm0, %xmm0
+
     ret
 
 map_poly_double_vec:
+    
     vbroadcastsd %xmm0, %ymm0
     vbroadcastsd %xmm1, %ymm1
     vbroadcastsd %xmm2, %ymm2
     vbroadcastsd %xmm3, %ymm3
+
     mov $0, %rcx
+
 map_poly_double_vec_loop:
+
     cmp %rdx, %rcx
     je map_poly_double_vec_done
+
+    # moves x = input[i]
     vmovupd (%rdi, %rcx, 8), %ymm4
+
     vmulpd %ymm4, %ymm0, %ymm5
+
     vaddpd %ymm1, %ymm5, %ymm5
+
     vmulpd %ymm4, %ymm5, %ymm5
+
     vaddpd %ymm2, %ymm5, %ymm5
+
     vmulpd %ymm4, %ymm5, %ymm5
+
     vaddpd %ymm3, %ymm5, %ymm5
+
+    # result in output[i]
     vmovupd %ymm5, (%rsi, %rcx, 8)
+
     add $4, %rcx
+
     jmp map_poly_double_vec_loop
+
 map_poly_double_vec_done:
     ret
 
 map_poly_single_vec:
+
     vbroadcastss %xmm0, %ymm0
     vbroadcastss %xmm1, %ymm1
     vbroadcastss %xmm2, %ymm2
     vbroadcastss %xmm3, %ymm3
+
     mov $0, %rcx
+
 map_poly_single_vec_loop:
+
     cmp %rdx, %rcx
     je map_poly_single_vec_done
+
+    # moves x = input[i]
     vmovups (%rdi, %rcx, 4), %ymm4
+
     vmulps %ymm4, %ymm0, %ymm5
+
     vaddps %ymm1, %ymm5, %ymm5
+
     vmulps %ymm4, %ymm5, %ymm5
+
     vaddps %ymm2, %ymm5, %ymm5
+
     vmulps %ymm4, %ymm5, %ymm5
+
     vaddps %ymm3, %ymm5, %ymm5
+
+    # result in output[i]
     vmovups %ymm5, (%rsi, %rcx, 4)
+
     add $8, %rcx
+
     jmp map_poly_single_vec_loop
+    
 map_poly_single_vec_done:
     ret
