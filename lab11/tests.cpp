@@ -46,29 +46,27 @@ int main(void) {
     printf("dot_single_vec result: %g\n", dot_single_vec(singles1, singles2, length));
     printf("dot_single_vc result:  %g\n", dot_single_vc(singles1, singles2, length));
 
-    //printf("map_poly_* inputs:\n");
-    //print_double_array(doubles1, length);
+    // printf("map_poly_* inputs:\n");
+    // print_double_array(doubles1, length);
 
     map_poly_double_c1(doubles1, double_out, length, 4, 5, 6, 7);
     printf("map_poly_double_c1 result:\n");
     print_double_array(double_out, length);
 
     printf("map_poly_double result:\n");
-    // make sure the results are really from the next run, not leftovers.
     memset(double_out, 0, length * sizeof(double));
     map_poly_double(doubles1, double_out, length, 4, 5, 6, 7);
     print_double_array(double_out, length);
-    
+
     printf("map_poly_double_vec result:\n");
     memset(double_out, 0, length * sizeof(double));
     map_poly_double_vec(doubles1, double_out, length, 4, 5, 6, 7);
     print_double_array(double_out, length);
-        
+
     printf("map_poly_double_vc result:\n");
     memset(double_out, 0, length * sizeof(double));
     map_poly_double_vc(doubles1, double_out, length, 4, 5, 6, 7);
     print_double_array(double_out, length);
-    
 
     printf("map_poly_single_c result:\n");
     map_poly_single_c(singles1, single_out, length, 4, 5, 6, 7);
@@ -95,5 +93,6 @@ int main(void) {
     free(singles2);
     free(double_out);
     free(single_out);
+
     return 0;
 }
