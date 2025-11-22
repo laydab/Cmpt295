@@ -1,5 +1,9 @@
 {
     "C_Cpp.files.exclude": {
         "**/version2/**": true
+    },
+    "files.associations": {
+        "*.cpp": "cpp",
+        "random": "cpp"
     }
 }
