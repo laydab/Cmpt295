@@ -1,6 +1,11 @@
 1. Without any compiler optimization, where are the local variables (n and is_even) stored in hailstone_length? How does that change at -O1?
 
+    Withou any compiler optimization the local varivles n is first initially stored in [rbp-24] and then is_even is stored in [rbp-1]
+    When you change it to the -O1 optimization thier are instead sotred in the registers compared to memory with n being in rdi and
+    is even never really being stored but used in test dil, 1.
+    
 2. For hailstone_length at -O2, how is 3*n+1 calculated?
+    It is calcutede using  load effective data, whcih comes out to be lea() di, [rdi+1+rdi*2]
 
 3. For hailstone_length, a very surprising optimization occurs between -O1 and -O2. What? (Hint: look for the recursive call.)
 
