@@ -1,0 +1,11 @@
+1. Without any compiler optimization, where are the local variables (n and is_even) stored in hailstone_length? How does that change at -O1?
+
+2. For hailstone_length at -O2, how is 3*n+1 calculated?
+
+3. For hailstone_length, a very surprising optimization occurs between -O1 and -O2. What? (Hint: look for the recursive call.)
+
+4. Was map_poly_single_c vectorized and dot_single_c not at -O3? How can you tell?
+
+5. How did that change with -funsafe-math-optimizations?
+
+6. How did the lab 11 performance change with -funsafe-math-optimizations? How did the C compare to the hand-written assembly or vectorclass implementations now?
