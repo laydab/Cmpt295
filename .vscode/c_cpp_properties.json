@@ -4,15 +4,16 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/lab11/version2",
-                "/usr/include",
-                "/usr/include/x86_64-linux-gnu"
+                // Manually add the one compiler include path we know is needed
+                "/usr/lib/llvm-19/lib/clang/19/include" 
+                // *** DO NOT re-add /usr/include or /usr/include/x86_64-linux-gnu ***
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/gcc",
+            // *** CRITICAL FIX: Set compilerPath to "" to DISABLE system path discovery ***
+            "compilerPath": "", 
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "linux-gcc-x64"
+            "intelliSenseMode": "linux-clang-x64" 
         }
     ],
     "version": 4
